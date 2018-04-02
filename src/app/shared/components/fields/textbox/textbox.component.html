@@ -1,0 +1,10 @@
+<div
+  [class]="question.containerClass"
+  [formGroup]="form">
+  <!--<label>{{ question.label }}</label>-->
+  <input
+    [class]="question.inputClass"
+    [type]="question.type"
+    [attr.placeholder]="question.placeholder"
+    [formControlName]="question.key">
+</div>
