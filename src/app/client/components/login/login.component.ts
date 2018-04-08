@@ -1,4 +1,8 @@
 import {Component, OnInit} from '@angular/core';
+import {ClientService} from '../../services/client.service';
+import {tryParseJsonString} from '../../../utils/functions';
+import {Router} from "@angular/router";
+import {RouteConstants} from "../../../utils/route-constants";
 
 @Component({
   selector: 'app-login',
@@ -8,9 +12,33 @@ import {Component, OnInit} from '@angular/core';
 export class LoginComponent implements OnInit {
 
   loginConfig = [];
+  msgs = [];
+
+  constructor(private clientService: ClientService,
+              private router: Router) {
+
+  }
 
   ngOnInit() {
     this.loginConfig = this.getLoginJson();
+  }
+
+  loginFunction(data) {
+    this.msgs = [];
+
+    this.clientService.login(data).then(() => {
+      this.router.navigate([RouteConstants.EVENTS]);
+    }, err => {
+      let response = tryParseJsonString(err._body);
+      let message = '';
+      if (response.hasError) {
+        message = response.data;
+      } else {
+        message = response.data.error;
+      }
+      this.msgs.push({severity: 'warn', summary: 'Warn Message', detail: message})
+
+    });
   }
 
   getLoginJson() {
@@ -18,7 +46,7 @@ export class LoginComponent implements OnInit {
     const json = [
       {
         value: '',
-        key: 'email',
+        key: 'username',
         label: 'user name',
         placeholder: 'Email',
         inputClass: 'form-control',

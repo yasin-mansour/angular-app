@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  SERVER_NAME: 'http://127.0.0.1',
+  SERVER_NAME: 'http://154.0.161.7:8080/shopper-diary',
   API_PATH: '/api'
 };

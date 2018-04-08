@@ -1,0 +1,13 @@
+<app-products></app-products>
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-6 ">
+      <app-new-product (submit)="submitProduct($event)"></app-new-product>
+    </div>
+    <div class="col-xs-6 ">
+      <app-data-to-be-entered (submit)="submitData($event)"></app-data-to-be-entered>
+    </div>
+  </div>
+</div>
+

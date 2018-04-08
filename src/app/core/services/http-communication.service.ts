@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
-import {Headers, Http, RequestOptions, RequestOptionsArgs, Response} from '@angular/http';
+import {Headers, RequestOptions, RequestOptionsArgs, Response} from '@angular/http';
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from 'rxjs/Rx';
 import {environment} from '../../../environments/environment';
 import 'rxjs/add/operator/map';
@@ -7,30 +8,28 @@ import {ApiConstants} from "../../utils/api-constants";
 
 @Injectable()
 export class HttpCommunicationService {
-  user;
 
-  constructor(public http: Http) {
+  constructor(public http: HttpClient) {
 
   }
 
-  post(url: string, body: any, headers?: Headers, isFormUrl = true) {
-    body._token = this.user.token;
-    console.log(body);
+  post(url: string, body: any, headers?: HttpHeaders, isFormUrl = true) {
+
     if (!headers) {
-      headers = new Headers();
+      headers = new HttpHeaders();
     }
     this.setHeaders(headers);
 
-    let options: RequestOptions = new RequestOptions({headers: headers, withCredentials: true});
-    body = isFormUrl ? this.objToFormUrlencoded(body) : body;
-    return this.http.post(this.buildUrl(url), body, options)
+    //let options: RequestOptions = new RequestOptions({headers: headers, withCredentials: true});
+    //body = isFormUrl ? this.objToFormUrlencoded(body) : body;
+    return this.http.post(this.buildUrl(url), body)
       .map((data: Response) => this.handleResponse(data))
       .catch(this.handleErrors());
   }
 
   get(url: string) {
     return this.http.get(this.buildUrl(url))
-      .map(response => response.json())
+      .map(response => response);
   }
 
   public handleErrors() {
@@ -45,16 +44,12 @@ export class HttpCommunicationService {
     return environment.SERVER_NAME + url;
   }
 
-  public setHeaders(objectToSetHeadersTo: Headers) {
-    objectToSetHeadersTo.append('Content-Type', 'application/json');
+  public setHeaders(objectToSetHeadersTo: HttpHeaders) {
+    objectToSetHeadersTo.set('Content-Type', 'application/json');
   }
 
   public handleResponse(res: Response) {
-    return res.json();
-  }
-
-  public setUser(user) {
-    this.user = user;
+    return res;
   }
 
   objToFormUrlencoded(object) {

@@ -6,9 +6,9 @@ import {
   QuestionControlService,
   BuildQuestions,
   AuthService,
-  AppGuard,
   AuthInterceptor,
-  AuthGuard
+  AuthGuard,
+  LoginGuard
 } from './';
 
 @NgModule({
@@ -21,8 +21,8 @@ import {
     QuestionControlService,
     BuildQuestions,
     AuthService,
-    AppGuard,
     AuthGuard,
+    LoginGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {AppComponent} from './app.component';
 import {RouteConstants} from './utils/route-constants';
-import {AppGuard} from './core/guards/app-guard';
 
 const appRoutes: Routes = [
 
